@@ -1,0 +1,34 @@
+<!-- ============================================
+     Mapa Argentina SVG
+     ============================================ -->
+
+<!-- Contenedor del Mapa SVG -->
+<div id="{{containerId}}" class="argentina-map-container"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    {{#useSelectiveColors}}
+    // Colores individuales por provincia
+    argentinaMapStyle({
+        selectiveColor: [
+            {{#selectiveColors}}
+            ["{{provinceCode}}", "{{color}}"]{{^-last}},{{/-last}}
+            {{/selectiveColors}}
+        ],
+        defaultColor: "{{defaultColor}}",
+        strokeColor: "{{strokeColor}}",
+        strokeWidth: {{strokeWidth}}
+    }{{#customSelector}}, "{{customSelector}}"{{/customSelector}});
+    {{/useSelectiveColors}}
+    {{^useSelectiveColors}}
+    // Color uniforme para provincias seleccionadas
+    argentinaMapStyle({
+        provinces: [{{#provinces}}"{{.}}"{{^-last}}, {{/-last}}{{/provinces}}],
+        color: "{{color}}",
+        strokeColor: "{{strokeColor}}",
+        strokeWidth: {{strokeWidth}},
+        defaultColor: "{{defaultColor}}"
+    }{{#customSelector}}, "{{customSelector}}"{{/customSelector}});
+    {{/useSelectiveColors}}
+});
+</script>

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/specification/main/schema/mcp-config.schema.json",
+  "_comment": "Configuración de ejemplo para MCP Server Poncho en Cursor IDE",
+  "_instructions": [
+    "1. Copia este archivo a ~/.cursor/mcp.json o al workspace .cursor/mcp.json",
+    "2. Ajusta la URL o el path al JAR según tu instalación",
+    "3. Reinicia Cursor para aplicar los cambios"
+  ],
+  "mcpServers": {
+    "argendata-poncho": {
+      "_description": "Servidor MCP para la librería Poncho del Gobierno Argentino",
+      
+      "_option1_comment": "Opción 1: Conectar a servidor ya ejecutándose (recomendado para desarrollo)",
+      "url": "http://localhost:8081/sse",
+      
+      "_option2_comment": "Opción 2: Ejecutar JAR directamente (descomentar y comentar url arriba)",
+      "_command": "java",
+      "_args": [
+        "-jar",
+        "/ruta/a/tu/mcp-server-poncho-1.0.0.jar"
+      ],
+      
+      "_option3_comment": "Opción 3: Ejecutar con Maven (para desarrollo)",
+      "_command_dev": "mvn",
+      "_args_dev": [
+        "-f",
+        "/ruta/a/poncho-mcp/pom.xml",
+        "spring-boot:run"
+      ]
+    }
+  }
+}

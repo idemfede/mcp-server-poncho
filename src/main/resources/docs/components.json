@@ -1,0 +1,636 @@
+{
+  "components": [
+    {
+      "id": "poncho-table",
+      "type": "component",
+      "name": "PonchoTable",
+      "category": "data",
+      "description": "Tabla interactiva con filtros dependientes, paginación, búsqueda y ordenamiento. Integración nativa con Google Sheets.",
+      "keywords": ["tabla", "filtros", "paginación", "búsqueda", "google sheets", "datatable", "grilla", "listado", "datos", "ordenar", "filtrar"],
+      "dependencies": {
+        "css": [
+          "https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css",
+          "/profiles/argentinagobar/themes/contrib/poncho/css/poncho.min.css",
+          "/profiles/argentinagobar/themes/contrib/poncho/css/ponchoTable-1.1.css"
+        ],
+        "js": [
+          "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js",
+          "https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js",
+          "/profiles/argentinagobar/themes/contrib/poncho/js/datatables.min.js",
+          "/profiles/argentinagobar/themes/contrib/poncho/js/poncho.min.js"
+        ]
+      },
+      "options": [
+        {"name": "jsonUrl", "type": "string", "required": true, "description": "URL del documento o servicio JSON con los datos"},
+        {"name": "tituloTabla", "type": "string", "required": false, "description": "Título para la etiqueta caption de la tabla"},
+        {"name": "ordenColumna", "type": "integer", "required": false, "description": "Columna por la cual ordenar (índice numérico)"},
+        {"name": "ordenTipo", "type": "string", "required": false, "default": "asc", "description": "Orden: 'asc' o 'desc'"},
+        {"name": "ocultarColumnas", "type": "array", "required": false, "description": "Lista de columnas a ocultar"},
+        {"name": "cantidadItems", "type": "integer", "required": false, "default": 10, "description": "Registros por página"},
+        {"name": "filterClassList", "type": "array", "required": false, "description": "Clases CSS para cada columna de filtros"},
+        {"name": "allowedTags", "type": "array", "required": false, "description": "Etiquetas HTML permitidas. ['*'] para todas"},
+        {"name": "orderFilter", "type": "boolean|array", "required": false, "description": "Ordenar filtros alfabéticamente"},
+        {"name": "wizard", "type": "boolean", "required": false, "default": false, "description": "Modo wizard para filtros dependientes"},
+        {"name": "urlParams", "type": "boolean", "required": false, "default": false, "description": "Habilitar parámetros de URL"},
+        {"name": "pushState", "type": "boolean", "required": false, "default": false, "description": "Actualizar URL con filtros"},
+        {"name": "copyResults", "type": "boolean", "required": false, "default": false, "description": "Botón para copiar URL de resultados"},
+        {"name": "headers", "type": "object", "required": false, "description": "Redefinir headers de columnas"},
+        {"name": "customEntry", "type": "function", "required": false, "description": "Función para modificar cada entrada"},
+        {"name": "refactorEntries", "type": "function", "required": false, "description": "Función para modificar el JSON completo"}
+      ],
+      "mainFunction": "ponchoTableDependant",
+      "usageExample": "Ver archivo de template poncho-table.html"
+    },
+    {
+      "id": "poncho-map",
+      "type": "component",
+      "name": "PonchoMap",
+      "category": "maps",
+      "description": "Mapas interactivos basados en Leaflet con marcadores, clusters, polígonos, popups y múltiples temas visuales.",
+      "keywords": ["mapa", "leaflet", "marcadores", "geolocalización", "clusters", "polígonos", "ubicación", "coordenadas", "puntos", "localización"],
+      "dependencies": {
+        "css": [
+          "https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css",
+          "/profiles/argentinagobar/themes/contrib/poncho/css/poncho.min.css",
+          "https://mapa-ign.argentina.gob.ar/js/leaflet/leaflet.css"
+        ],
+        "js": [
+          "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js",
+          "https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js",
+          "https://mapa-ign.argentina.gob.ar/js/leaflet/leaflet.js",
+          "/profiles/argentinagobar/themes/contrib/poncho/js/poncho.min.js"
+        ]
+      },
+      "options": [
+        {"name": "scope", "type": "string", "required": true, "description": "Selector del contenedor del mapa"},
+        {"name": "title", "type": "string", "required": false, "description": "Clave del JSON para el título del marcador"},
+        {"name": "map_view", "type": "array", "required": false, "description": "Centro del mapa [latitud, longitud]"},
+        {"name": "map_zoom", "type": "integer", "required": false, "default": 12, "description": "Nivel de zoom inicial"},
+        {"name": "tooltip", "type": "boolean", "required": false, "default": false, "description": "Mostrar tooltips en marcadores"},
+        {"name": "theme_tool", "type": "boolean", "required": false, "default": true, "description": "Mostrar selector de tema"},
+        {"name": "no_info", "type": "boolean", "required": false, "default": false, "description": "Ocultar panel de información"},
+        {"name": "marker", "type": "object", "required": false, "description": "Configuración personalizada de marcadores"},
+        {"name": "cluster", "type": "boolean", "required": false, "default": false, "description": "Agrupar marcadores cercanos"},
+        {"name": "summary", "type": "object", "required": false, "description": "Configuración del resumen del mapa"}
+      ],
+      "themes": ["default", "contrast", "dark", "grayscale", "sepia", "blue", "relax", "transparent"],
+      "mainClass": "PonchoMap",
+      "usageExample": "Ver archivo de template poncho-map.html"
+    },
+    {
+      "id": "poncho-map-filter",
+      "type": "component",
+      "name": "PonchoMapFilter",
+      "category": "maps",
+      "description": "Filtros interactivos para PonchoMap que permiten filtrar marcadores por categorías.",
+      "keywords": ["mapa", "filtros", "categorías", "leaflet", "segmentar", "clasificar"],
+      "dependencies": {
+        "css": [],
+        "js": []
+      },
+      "options": [
+        {"name": "filters", "type": "array", "required": true, "description": "Definición de filtros disponibles"},
+        {"name": "map", "type": "PonchoMap", "required": true, "description": "Instancia de PonchoMap a filtrar"}
+      ],
+      "mainClass": "PonchoMapFilter",
+      "usageExample": "Ver documentación de poncho-map"
+    },
+    {
+      "id": "poncho-map-search",
+      "type": "component",
+      "name": "PonchoMapSearch",
+      "category": "maps",
+      "description": "Componente de búsqueda con autocompletado para PonchoMap.",
+      "keywords": ["mapa", "búsqueda", "autocompletado", "combobox", "buscar", "localizar"],
+      "dependencies": {
+        "css": [],
+        "js": []
+      },
+      "options": [
+        {"name": "map", "type": "PonchoMap", "required": true, "description": "Instancia de PonchoMap"},
+        {"name": "placeholder", "type": "string", "required": false, "description": "Texto del placeholder"},
+        {"name": "searchKey", "type": "string", "required": false, "description": "Clave del JSON para buscar"}
+      ],
+      "mainClass": "PonchoMapSearch",
+      "usageExample": "Ver documentación de poncho-map"
+    },
+    {
+      "id": "poncho-map-provinces",
+      "type": "component",
+      "name": "PonchoMapProvinces",
+      "category": "maps",
+      "description": "Mapa de Argentina con selector de provincias y filtrado geográfico.",
+      "keywords": ["mapa", "provincias", "argentina", "selector", "geojson", "regiones", "territorio"],
+      "dependencies": {
+        "css": [
+          "/profiles/argentinagobar/themes/contrib/poncho/css/poncho.min.css"
+        ],
+        "js": [
+          "https://mapa-ign.argentina.gob.ar/js/leaflet/leaflet.js",
+          "/profiles/argentinagobar/themes/contrib/poncho/js/poncho.min.js"
+        ]
+      },
+      "options": [
+        {"name": "scope", "type": "string", "required": true, "description": "Selector del contenedor"},
+        {"name": "provincesData", "type": "string", "required": false, "description": "URL del GeoJSON de provincias"}
+      ],
+      "mainClass": "PonchoMapProvinces",
+      "usageExample": "Ver ejemplos en poncho-map-provinces/demo"
+    },
+    {
+      "id": "national-holidays",
+      "type": "component",
+      "name": "NationalHolidays",
+      "category": "calendar",
+      "description": "Calendario de feriados nacionales argentinos con soporte multiidioma y tipos de feriados.",
+      "keywords": ["feriados", "calendario", "argentina", "i18n", "fechas", "días no laborables", "festivos"],
+      "dependencies": {
+        "css": [
+          "/profiles/argentinagobar/themes/contrib/poncho/css/poncho.min.css"
+        ],
+        "js": [
+          "/profiles/argentinagobar/themes/contrib/poncho/js/national-holidays.js"
+        ]
+      },
+      "options": [
+        {"name": "calendarYear", "type": "integer", "required": true, "description": "Año del calendario"},
+        {"name": "markers", "type": "object", "required": true, "description": "Datos de feriados en formato JSON"},
+        {"name": "lang", "type": "string", "required": false, "default": "es", "description": "Idioma: 'es' o 'en'"},
+        {"name": "containerId", "type": "string", "required": false, "default": "#calendar-container", "description": "ID del contenedor"},
+        {"name": "templateId", "type": "string", "required": false, "default": "#month-tpl", "description": "ID del template"},
+        {"name": "allowHTML", "type": "boolean", "required": false, "default": false, "description": "Permitir HTML en nombres"},
+        {"name": "holidays_type", "type": "object", "required": false, "description": "Clases CSS para tipos de feriados"}
+      ],
+      "holidayTypes": [
+        {"type": "inamovible", "description": "Feriado que no se puede mover", "defaultClass": "primary"},
+        {"type": "trasladable", "description": "Feriado que puede trasladarse", "defaultClass": "success"},
+        {"type": "no_laborable", "description": "Día no laborable", "defaultClass": "nl"},
+        {"type": "turistico", "description": "Feriado con fines turísticos", "defaultClass": "turistico"}
+      ],
+      "mainObject": "calendar",
+      "mainFunction": "calendar.render",
+      "usageExample": "Ver archivo de template national-holidays.html"
+    },
+    {
+      "id": "mapa-argentina-svg",
+      "type": "component",
+      "name": "ArgentinaMapSVG",
+      "category": "maps",
+      "description": "Mapa SVG de Argentina con personalización de colores por provincia usando códigos ISO 3166-2:AR.",
+      "keywords": ["mapa", "svg", "argentina", "provincias", "iso", "vectorial", "colores", "regiones"],
+      "dependencies": {
+        "css": [],
+        "js": [
+          "/profiles/argentinagobar/themes/contrib/poncho/js/poncho.min.js"
+        ]
+      },
+      "options": [
+        {"name": "color", "type": "string", "required": false, "default": "#DDDDDD", "description": "Color de fondo de provincias"},
+        {"name": "provinces", "type": "array", "required": false, "default": ["*"], "description": "Provincias a colorear (códigos ISO)"},
+        {"name": "strokeColor", "type": "string", "required": false, "default": "#CCCACA", "description": "Color de líneas"},
+        {"name": "strokeWidth", "type": "number", "required": false, "default": 1, "description": "Ancho de líneas"},
+        {"name": "defaultColor", "type": "string", "required": false, "default": "#DDDDDD", "description": "Color base"},
+        {"name": "selectiveColor", "type": "array", "required": false, "description": "Colores individuales por provincia"}
+      ],
+      "provinceCodes": {
+        "AR-B": "Buenos Aires",
+        "AR-C": "Ciudad Autónoma de Buenos Aires",
+        "AR-K": "Catamarca",
+        "AR-H": "Chaco",
+        "AR-U": "Chubut",
+        "AR-X": "Córdoba",
+        "AR-W": "Corrientes",
+        "AR-E": "Entre Ríos",
+        "AR-P": "Formosa",
+        "AR-Y": "Jujuy",
+        "AR-L": "La Pampa",
+        "AR-F": "La Rioja",
+        "AR-M": "Mendoza",
+        "AR-N": "Misiones",
+        "AR-Q": "Neuquén",
+        "AR-R": "Río Negro",
+        "AR-A": "Salta",
+        "AR-J": "San Juan",
+        "AR-D": "San Luis",
+        "AR-Z": "Santa Cruz",
+        "AR-S": "Santa Fe",
+        "AR-G": "Santiago del Estero",
+        "AR-V": "Tierra del Fuego",
+        "AR-T": "Tucumán"
+      },
+      "mainFunction": "argentinaMapStyle",
+      "usageExample": "Ver ejemplos en mapa-argentina/demo"
+    },
+    {
+      "id": "poncho-agenda",
+      "type": "component",
+      "name": "PonchoAgenda",
+      "category": "calendar",
+      "description": "Agrupa entradas JSON por fecha de inicio, fecha de fin y categoría definida por el usuario.",
+      "keywords": ["agenda", "eventos", "calendario", "fechas", "categorías", "cronograma", "actividades"],
+      "dependencies": {
+        "css": [
+          "/profiles/argentinagobar/themes/contrib/poncho/css/poncho.min.css"
+        ],
+        "js": [
+          "/profiles/argentinagobar/themes/contrib/poncho/js/poncho.min.js"
+        ]
+      },
+      "options": [],
+      "mainClass": "PonchoAgenda",
+      "usageExample": "Ver ejemplos en poncho-agenda/demo"
+    },
+    {
+      "id": "poncho-color",
+      "type": "component",
+      "name": "PonchoColor",
+      "category": "design",
+      "description": "Sistema de colores con espacios (arg, bandera, gna, miarg) y grupos de colores con variaciones de intensidad.",
+      "keywords": ["colores", "paleta", "diseño", "temas", "css", "estilos", "institucional", "branding"],
+      "dependencies": {
+        "css": [],
+        "js": [
+          "/profiles/argentinagobar/themes/contrib/poncho/js/poncho.min.js"
+        ]
+      },
+      "colorSpaces": ["arg", "bandera", "gna", "miarg"],
+      "colorGroups": ["amarillo", "azul", "blanco", "fucsia", "morado", "naranja", "negro", "ocre", "primary", "rojo"],
+      "intensityScale": ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900"],
+      "methods": [
+        {"name": "spaces", "description": "Retorna lista de espacios de color disponibles"},
+        {"name": "groupsBySpace(space)", "description": "Retorna grupos de color para un espacio"},
+        {"name": "colorGroup(space, groupName)", "description": "Retorna definición completa de un grupo"},
+        {"name": "colorSpace(space)", "description": "Retorna todos los grupos de un espacio"},
+        {"name": "ponchoColor()", "description": "Retorna color específico"}
+      ],
+      "mainObject": "color",
+      "usageExample": "color.colorGroup('arg', 'azul')"
+    },
+    {
+      "id": "gapi-sheet-data",
+      "type": "component",
+      "name": "GapiSheetData",
+      "category": "data",
+      "description": "Herramienta para conectar con Google Sheets y obtener datos en formato JSON.",
+      "keywords": ["google sheets", "api", "datos", "json", "spreadsheet", "excel", "planilla", "hoja de cálculo"],
+      "dependencies": {
+        "css": [],
+        "js": [
+          "/profiles/argentinagobar/themes/contrib/poncho/js/poncho.min.js"
+        ]
+      },
+      "methods": [
+        {"name": "url(sheetName, spreadsheetId)", "description": "Genera URL del endpoint JSON para Google Sheets"}
+      ],
+      "mainClass": "GapiSheetData",
+      "usageExample": "const gapi = new GapiSheetData(); const url = gapi.url('dataset', 'SPREADSHEET_ID');"
+    },
+    {
+      "id": "translate-html",
+      "type": "component",
+      "name": "TranslateHTML",
+      "category": "i18n",
+      "description": "Traducción de textos y atributos HTML usando diccionarios JSON.",
+      "keywords": ["traducción", "i18n", "internacionalización", "multiidioma", "idiomas", "localización"],
+      "dependencies": {
+        "css": [],
+        "js": [
+          "/profiles/argentinagobar/themes/contrib/poncho/js/poncho.min.js"
+        ]
+      },
+      "options": [],
+      "mainClass": "TranslateHTML",
+      "usageExample": "Ver ejemplos en translate-html/demo"
+    },
+    {
+      "id": "showdown-extensions",
+      "type": "component",
+      "name": "ShowdownExtensions",
+      "category": "content",
+      "description": "Extensiones para Showdown.js que agregan componentes Poncho al renderizar Markdown.",
+      "keywords": ["markdown", "showdown", "alertas", "botones", "tablas", "contenido", "rich text"],
+      "dependencies": {
+        "css": [],
+        "js": [
+          "/sites/default/files/ponchotable/showdown.js",
+          "/profiles/argentinagobar/themes/argentinagobar/argentinagobar_theme/js/extensiones/showdown-extensions.js"
+        ]
+      },
+      "extensions": ["alert", "button", "details", "eje", "image", "numbers", "table", "video"],
+      "usageExample": "Ver ejemplos en showdown-extensions/demo"
+    },
+
+    {
+      "id": "template-home",
+      "type": "template",
+      "name": "Home",
+      "category": "paginas-argentina",
+      "description": "Página de inicio institucional con destacados, noticias y accesos rápidos para sitios de argentina.gob.ar",
+      "keywords": ["home", "inicio", "landing", "principal", "institucional", "bienvenida", "portada", "página inicial"],
+      "templatePath": "pages/paginas-argentina/home.html"
+    },
+    {
+      "id": "template-pagina",
+      "type": "template",
+      "name": "Página Genérica",
+      "category": "paginas-argentina",
+      "description": "Página de contenido estándar con breadcrumb y sidebar para navegación interna",
+      "keywords": ["página", "contenido", "estándar", "breadcrumb", "sidebar", "genérica", "interna", "sección"],
+      "templatePath": "pages/paginas-argentina/pagina.html"
+    },
+    {
+      "id": "template-pagina-area",
+      "type": "template",
+      "name": "Página de Área",
+      "category": "paginas-argentina",
+      "description": "Página de área o sección con navegación lateral para organismos y departamentos",
+      "keywords": ["área", "sección", "departamento", "organismo", "navegación lateral", "ministerio", "secretaría"],
+      "templatePath": "pages/paginas-argentina/pagina-area.html"
+    },
+    {
+      "id": "template-pagina-navegacion",
+      "type": "template",
+      "name": "Página con Navegación",
+      "category": "paginas-argentina",
+      "description": "Página con menú de navegación expandido para índice de contenidos o sitemap",
+      "keywords": ["navegación", "menú", "expandido", "índice", "sitemap", "mapa del sitio", "estructura"],
+      "templatePath": "pages/paginas-argentina/pagina-navegacion.html"
+    },
+    {
+      "id": "template-noticia",
+      "type": "template",
+      "name": "Noticia",
+      "category": "paginas-argentina",
+      "description": "Página de detalle de noticia con fecha, imagen destacada y contenido editorial",
+      "keywords": ["noticia", "artículo", "blog", "publicación", "nota", "prensa", "novedad", "comunicado", "news"],
+      "templatePath": "pages/paginas-argentina/noticia.html"
+    },
+    {
+      "id": "template-servicio",
+      "type": "template",
+      "name": "Servicio o Trámite",
+      "category": "paginas-argentina",
+      "description": "Página de servicio o trámite con pasos, requisitos y documentación necesaria",
+      "keywords": ["servicio", "trámite", "procedimiento", "pasos", "requisitos", "gestión", "documentación", "guía"],
+      "templatePath": "pages/paginas-argentina/servicio.html"
+    },
+
+    {
+      "id": "template-login",
+      "type": "template",
+      "name": "Login",
+      "category": "login-registro",
+      "description": "Formulario de inicio de sesión con opción de recuperar contraseña y enlace a registro",
+      "keywords": ["login", "iniciar sesión", "acceso", "ingresar", "autenticación", "usuario", "contraseña", "entrar"],
+      "templatePath": "pages/login-registro/login.html"
+    },
+    {
+      "id": "template-registro",
+      "type": "template",
+      "name": "Registro",
+      "category": "login-registro",
+      "description": "Formulario de registro de nuevo usuario con validación de campos",
+      "keywords": ["registro", "registrar", "crear cuenta", "nuevo usuario", "alta", "signup", "inscripción"],
+      "templatePath": "pages/login-registro/registro.html"
+    },
+    {
+      "id": "template-recuperar-contrasena",
+      "type": "template",
+      "name": "Recuperar Contraseña",
+      "category": "login-registro",
+      "description": "Formulario para solicitar recuperación de contraseña por email",
+      "keywords": ["recuperar", "contraseña", "olvidé", "restablecer", "reset", "password", "forgot"],
+      "templatePath": "pages/login-registro/recuperar-contrasena.html"
+    },
+    {
+      "id": "template-recuperar-contrasena-2",
+      "type": "template",
+      "name": "Confirmación Email Enviado",
+      "category": "login-registro",
+      "description": "Página de confirmación de envío de email para recuperación de contraseña",
+      "keywords": ["confirmación", "email enviado", "verificación", "correo", "bandeja", "revisar"],
+      "templatePath": "pages/login-registro/recuperar-contrasena-2.html"
+    },
+    {
+      "id": "template-recuperar-contrasena-3",
+      "type": "template",
+      "name": "Nueva Contraseña",
+      "category": "login-registro",
+      "description": "Formulario para crear nueva contraseña después de recuperación",
+      "keywords": ["nueva contraseña", "cambiar", "actualizar", "reset password", "crear contraseña"],
+      "templatePath": "pages/login-registro/recuperar-contrasena-3.html"
+    },
+    {
+      "id": "template-correo-bienvenida",
+      "type": "template",
+      "name": "Email de Bienvenida",
+      "category": "login-registro",
+      "description": "Plantilla de email de bienvenida y confirmación de cuenta creada",
+      "keywords": ["email", "bienvenida", "confirmación", "cuenta creada", "correo", "welcome", "activación"],
+      "templatePath": "pages/login-registro/correo-bienvenida.html"
+    },
+    {
+      "id": "template-correo-recuperar-contrasena",
+      "type": "template",
+      "name": "Email Recuperar Contraseña",
+      "category": "login-registro",
+      "description": "Plantilla de email con enlace para recuperar contraseña",
+      "keywords": ["email", "recuperación", "enlace", "link", "correo", "reset", "restablecer"],
+      "templatePath": "pages/login-registro/correo-recuperar-contrasena.html"
+    },
+
+    {
+      "id": "template-formulario-completo",
+      "type": "template",
+      "name": "Formulario Completo",
+      "category": "formularios",
+      "description": "Formulario con todos los tipos de campos (texto, select, checkbox, radio, fecha) y validaciones",
+      "keywords": ["formulario", "completo", "validación", "campos", "input", "form", "todos los campos"],
+      "templatePath": "pages/formularios/formulario_completo.html"
+    },
+    {
+      "id": "template-datos-personales",
+      "type": "template",
+      "name": "Datos Personales",
+      "category": "formularios",
+      "description": "Formulario de datos de identificación personal con DNI, CUIL y datos básicos",
+      "keywords": ["datos personales", "identificación", "DNI", "CUIL", "persona", "identidad", "documento"],
+      "templatePath": "pages/formularios/datos_personales.html"
+    },
+    {
+      "id": "template-ejemplo-consulta",
+      "type": "template",
+      "name": "Formulario de Consulta",
+      "category": "formularios",
+      "description": "Formulario simple de consulta con pocos campos, ideal para contacto",
+      "keywords": ["consulta", "contacto", "simple", "mensaje", "pregunta", "escribinos", "ayuda"],
+      "templatePath": "pages/formularios/ejemplo_consulta.html"
+    },
+    {
+      "id": "template-respuesta",
+      "type": "template",
+      "name": "Respuesta Exitosa",
+      "category": "formularios",
+      "description": "Página de confirmación exitosa después de enviar un formulario",
+      "keywords": ["éxito", "confirmación", "gracias", "enviado", "completado", "success", "ok"],
+      "templatePath": "pages/formularios/respuesta.html"
+    },
+    {
+      "id": "template-respuesta-error",
+      "type": "template",
+      "name": "Respuesta con Error",
+      "category": "formularios",
+      "description": "Página de error del sistema para mostrar cuando algo falla",
+      "keywords": ["error", "falla", "problema", "sistema", "reintentar", "oops", "500"],
+      "templatePath": "pages/formularios/respuesta-con-error.html"
+    },
+    {
+      "id": "template-constancia-cuil",
+      "type": "template",
+      "name": "Constancia CUIL",
+      "category": "formularios",
+      "description": "Plantilla de email de constancia o comprobante con datos de CUIL",
+      "keywords": ["constancia", "comprobante", "email", "certificado", "CUIL", "documento", "recibo"],
+      "templatePath": "pages/formularios/constancia-cuil.html"
+    },
+
+    {
+      "id": "template-tabla-simple",
+      "type": "template",
+      "name": "Tabla Simple",
+      "category": "tablas",
+      "description": "Tabla básica con estilos Poncho para pocas columnas y datos estáticos",
+      "keywords": ["tabla", "simple", "básica", "datos", "filas", "columnas", "estática", "listado"],
+      "templatePath": "pages/tablas/tabla-simple.html"
+    },
+    {
+      "id": "template-tabla-columnas-combinadas",
+      "type": "template",
+      "name": "Tabla Columnas Combinadas",
+      "category": "tablas",
+      "description": "Tabla con múltiples datos por columna y celdas agrupadas",
+      "keywords": ["columnas combinadas", "múltiples datos", "agrupada", "colspan", "rowspan", "merge"],
+      "templatePath": "pages/tablas/tabla-columnas-combinadas.html"
+    },
+    {
+      "id": "template-tabla-filtros",
+      "type": "template",
+      "name": "Tabla con Filtros DataTables",
+      "category": "tablas",
+      "description": "Tabla interactiva con búsqueda, paginado y ordenamiento usando DataTables",
+      "keywords": ["filtros", "búsqueda", "paginado", "ordenamiento", "DataTables", "interactiva", "dinámica"],
+      "templatePath": "pages/tablas/tabla-filtro-data-tables.html"
+    },
+    {
+      "id": "template-tabla-responsive",
+      "type": "template",
+      "name": "Tabla Responsive",
+      "category": "tablas",
+      "description": "Tabla optimizada para dispositivos móviles con diseño adaptable",
+      "keywords": ["responsive", "móvil", "celular", "adaptable", "mobile", "smartphone", "tablet"],
+      "templatePath": "pages/tablas/tabla-responsive.html"
+    },
+    {
+      "id": "template-tabla-scroll",
+      "type": "template",
+      "name": "Tabla Scroll Horizontal",
+      "category": "tablas",
+      "description": "Tabla con scroll horizontal para muchas columnas sin romper el layout",
+      "keywords": ["scroll", "horizontal", "muchas columnas", "ancha", "overflow", "desplazar"],
+      "templatePath": "pages/tablas/tabla-scroll-horizontal.html"
+    },
+
+    {
+      "id": "template-panel-simple",
+      "type": "template",
+      "name": "Panel Simple",
+      "category": "paneles",
+      "description": "Panel con solo título para listados extensos de enlaces",
+      "keywords": ["panel", "tarjeta", "card", "título", "listado", "enlace", "link", "acceso"],
+      "templatePath": "pages/paneles/panel-simple.html"
+    },
+    {
+      "id": "template-panel-texto",
+      "type": "template",
+      "name": "Panel con Texto",
+      "category": "paneles",
+      "description": "Panel con título y descripción breve para navegación contextual",
+      "keywords": ["panel", "texto", "descripción", "resumen", "card", "bloque"],
+      "templatePath": "pages/paneles/panel-simple-con-texto.html"
+    },
+    {
+      "id": "template-panel-icono-texto",
+      "type": "template",
+      "name": "Panel con Ícono y Texto",
+      "category": "paneles",
+      "description": "Panel con ícono, título y descripción para accesos visuales",
+      "keywords": ["panel", "ícono", "texto", "visual", "icono", "fontawesome", "ilustrado"],
+      "templatePath": "pages/paneles/panel-simple-con-icono-texto.html"
+    },
+    {
+      "id": "template-panel-destacado-icono",
+      "type": "template",
+      "name": "Panel Destacado con Ícono",
+      "category": "paneles",
+      "description": "Panel destacado con ícono y fondo de color para alto impacto visual",
+      "keywords": ["destacado", "ícono", "color", "impacto", "llamativo", "hero", "feature", "importante"],
+      "templatePath": "pages/paneles/panel-destacado-con-icono.html"
+    },
+    {
+      "id": "template-panel-destacado-imagen",
+      "type": "template",
+      "name": "Panel Destacado con Imagen",
+      "category": "paneles",
+      "description": "Panel destacado con imagen de fondo para banners y promociones",
+      "keywords": ["destacado", "imagen", "fondo", "visual", "banner", "promoción", "hero", "cover"],
+      "templatePath": "pages/paneles/panel-destacado-con-imagen.html"
+    },
+    {
+      "id": "template-panel-desactivado",
+      "type": "template",
+      "name": "Panel Desactivado",
+      "category": "paneles",
+      "description": "Panel en estado deshabilitado para contenido próximamente disponible",
+      "keywords": ["desactivado", "disabled", "inactivo", "próximamente", "coming soon", "gris"],
+      "templatePath": "pages/paneles/panel-desactivado.html"
+    },
+
+    {
+      "id": "template-destacados-iconos",
+      "type": "template",
+      "name": "Destacados con Íconos",
+      "category": "destacados",
+      "description": "Sección de destacados con íconos para principios, valores o features de producto",
+      "keywords": ["destacados", "íconos", "principios", "valores", "features", "características", "beneficios"],
+      "templatePath": "pages/destacados/destacados-iconos.html"
+    },
+    {
+      "id": "template-destacados-numeros",
+      "type": "template",
+      "name": "Destacados con Números",
+      "category": "destacados",
+      "description": "Sección de destacados para mostrar cifras estadísticas, KPIs e indicadores",
+      "keywords": ["números", "estadísticas", "cifras", "KPI", "indicadores", "métricas", "datos", "counters"],
+      "templatePath": "pages/destacados/destacados-numeros.html"
+    },
+    {
+      "id": "template-destacados-imagenes",
+      "type": "template",
+      "name": "Destacados con Imágenes",
+      "category": "destacados",
+      "description": "Sección de destacados con imagen y texto descriptivo tipo galería",
+      "keywords": ["destacados", "imágenes", "galería", "visual", "fotos", "cards", "grid"],
+      "templatePath": "pages/destacados/destacados-imagenes.html"
+    },
+
+    {
+      "id": "template-header-footer",
+      "type": "template",
+      "name": "Header y Footer Externo",
+      "category": "headers-footers",
+      "description": "Header y footer para sitios externos a argentina.gob.ar con identidad visual oficial",
+      "keywords": ["header", "footer", "cabecera", "pie", "externo", "standalone", "navbar", "navegación"],
+      "templatePath": "pages/headers-footers/header-footer-v1.html"
+    }
+  ]
+}

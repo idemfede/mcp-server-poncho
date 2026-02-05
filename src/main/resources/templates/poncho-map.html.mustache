@@ -1,0 +1,91 @@
+<!-- ============================================
+     PonchoMap - Mapa interactivo con Leaflet
+     ============================================ -->
+
+<!-- Contenedor del Mapa -->
+<div class="poncho-map" data-scope="{{scope}}">
+    <div class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+         id="{{mapId}}"
+         style="height: {{mapHeight}}px">
+    </div>
+</div>
+
+{{#showFilters}}
+<!-- Filtros del Mapa -->
+<div id="{{scope}}-filters" class="poncho-map-filters">
+    <!-- Los filtros se generan dinámicamente -->
+</div>
+{{/showFilters}}
+
+{{#showSearch}}
+<!-- Búsqueda del Mapa -->
+<div id="{{scope}}-search" class="poncho-map-search">
+    <input type="search" class="form-control" placeholder="Buscar ubicación..." />
+</div>
+{{/showSearch}}
+
+<script>
+(async () => {
+    {{#useGoogleSheets}}
+    // Cargar datos desde Google Sheets
+    const gapi = new GapiSheetData();
+    const dataUrl = gapi.url("{{sheetName}}", "{{spreadsheetId}}");
+    const response = await fetch(dataUrl);
+    const entries = await response.json();
+    {{/useGoogleSheets}}
+    {{^useGoogleSheets}}
+    {{#useStaticData}}
+    // Datos estáticos
+    const entries = [
+        {
+            latitud: {{latitude}},
+            longitud: {{longitude}},
+            {{titleKey}}: "{{titleValue}}"
+        }
+    ];
+    {{/useStaticData}}
+    {{^useStaticData}}
+    // Cargar datos desde JSON
+    const response = await fetch("{{jsonUrl}}");
+    const entries = await response.json();
+    {{/useStaticData}}
+    {{/useGoogleSheets}}
+
+    const mapOptions = {
+        scope: "{{scope}}",
+        title: "{{titleKey}}",
+        map_view: [{{centerLatitude}}, {{centerLongitude}}],
+        map_zoom: {{zoomLevel}},
+        tooltip: {{showTooltip}},
+        theme_tool: {{showThemeTool}},
+        no_info: {{hideInfo}},
+        {{#enableCluster}}
+        cluster: true,
+        {{/enableCluster}}
+        summary: {
+            title: "{{summaryTitle}}",
+            hidden: {{hideSummary}}
+        }
+    };
+
+    const map = new PonchoMap(entries, mapOptions);
+    map.render();
+
+    {{#showFilters}}
+    // Configurar filtros
+    const filterOptions = {
+        // Agregar configuración de filtros aquí
+    };
+    const filter = new PonchoMapFilter(map, filterOptions);
+    {{/showFilters}}
+
+    {{#showSearch}}
+    // Configurar búsqueda
+    const searchOptions = {
+        placeholder: "Buscar...",
+        searchKey: "{{titleKey}}"
+    };
+    const search = new PonchoMapSearch(map, searchOptions);
+    {{/showSearch}}
+})();
+</script>

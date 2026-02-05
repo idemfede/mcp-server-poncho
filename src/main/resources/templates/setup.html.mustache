@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    
+    <!-- Fuente Encode Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Encode+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 3.4.1 -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 4.7 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- Poncho CSS -->
+    <link href="https://www.argentina.gob.ar/profiles/argentinagobar/themes/contrib/poncho/css/poncho.min.css" rel="stylesheet">
+    <link href="https://www.argentina.gob.ar/profiles/argentinagobar/themes/contrib/poncho/css/icono-arg.css" rel="stylesheet">
+    {{#includeTableStyles}}
+    <link href="https://www.argentina.gob.ar/profiles/argentinagobar/themes/contrib/poncho/css/ponchoTable-1.1.css" rel="stylesheet">
+    {{/includeTableStyles}}
+    {{#includeMapStyles}}
+    <link href="https://mapa-ign.argentina.gob.ar/js/leaflet/leaflet.css" rel="stylesheet">
+    {{/includeMapStyles}}
+</head>
+<body>
+    <main class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>{{title}}</h1>
+                
+                <!-- Contenido principal aquí -->
+                
+            </div>
+        </div>
+    </main>
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
+    {{#includeTableScripts}}
+    <!-- DataTables para PonchoTable -->
+    <script src="https://www.argentina.gob.ar/profiles/argentinagobar/themes/contrib/poncho/js/datatables.min.js"></script>
+    {{/includeTableScripts}}
+    {{#includeMapScripts}}
+    <!-- Leaflet para PonchoMap -->
+    <script src="https://mapa-ign.argentina.gob.ar/js/leaflet/leaflet.js"></script>
+    {{/includeMapScripts}}
+    
+    <!-- Poncho JS -->
+    <script src="https://www.argentina.gob.ar/profiles/argentinagobar/themes/contrib/poncho/js/poncho.min.js"></script>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tu código aquí
+    });
+    </script>
+</body>
+</html>

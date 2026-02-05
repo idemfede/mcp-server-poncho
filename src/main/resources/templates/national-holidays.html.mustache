@@ -1,0 +1,49 @@
+<!-- ============================================
+     National Holidays - Calendario de Feriados
+     ============================================ -->
+
+<!-- Contenedor del Calendario -->
+<div id="{{containerId}}" class="calendar"></div>
+
+<!-- Template del Mes -->
+<template id="{{templateId}}">
+    <article class="month js-tpl-id">
+        <h2 class="h5 text-center js-tpl-month"></h2>
+        <div class="js-jump-to-list"></div>
+        <table class="table text-center table-borderless small js-table">
+            <caption class="js-tpl-caption sr-only"></caption>
+            <thead class="js-tpl-weekdays"></thead>
+            <tbody class="js-tpl-tbody"></tbody>
+        </table>
+        <div class="js-tpl-holidays"></div>
+    </article>
+</template>
+
+<script>
+// Datos de feriados
+const holidaysData = {
+    "{{lang}}": [
+        {{#holidays}}
+        { "date": "{{date}}", "label": "{{label}}", "type": "{{type}}" }{{^-last}},{{/-last}}
+        {{/holidays}}
+    ]
+};
+
+document.addEventListener("DOMContentLoaded", function() {
+    const calendarOptions = {
+        calendarYear: {{year}},
+        markers: holidaysData,
+        allowHTML: {{allowHTML}},
+        lang: "{{lang}}",
+        containerId: "#{{containerId}}",
+        templateId: "#{{templateId}}",
+        holidays_type: {
+            inamovible: "{{inamovibleClass}}",
+            trasladable: "{{trasladableClass}}",
+            no_laborable: "{{noLaborableClass}}",
+            turistico: "{{turisticoClass}}"
+        }
+    };
+    calendar.render(calendarOptions);
+});
+</script>

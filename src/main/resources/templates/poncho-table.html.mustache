@@ -1,0 +1,73 @@
+<!-- ============================================
+     PonchoTable - Tabla con filtros dependientes
+     ============================================ -->
+
+<!-- Contenedor de Filtros -->
+<div class="row" id="ponchoTableFiltroCont" style="display:none">
+    <form>
+        <div class="form-group">
+            <label for="ponchoTableFiltro" id="tituloFiltro">Filtro</label>
+            <select class="form-control" id="ponchoTableFiltro" name="ponchoTableFiltro"></select>
+        </div>
+    </form>
+</div>
+
+<!-- Campo de Búsqueda -->
+<search class="row" id="ponchoTableSearchCont" style="display:none">
+    <form>
+        <div class="form-group">
+            <label for="ponchoTableSearch">Buscá por palabra clave</label>
+            <input class="form-control" id="ponchoTableSearch" type="search" />
+        </div>
+    </form>
+</search>
+
+<!-- Tabla -->
+<div class="row">
+    <div class="table-responsive">
+        <table class="table table-condensed table-sm table-striped" id="ponchoTable">
+            <caption>{{caption}}</caption>
+            <thead></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+(async () => {
+    {{#useGoogleSheets}}
+    // Conexión con Google Sheets
+    const gapi = new GapiSheetData();
+    const url = gapi.url("{{sheetName}}", "{{spreadsheetId}}");
+    {{/useGoogleSheets}}
+    {{^useGoogleSheets}}
+    const url = "{{jsonUrl}}";
+    {{/useGoogleSheets}}
+
+    const options = {
+        jsonUrl: url,
+        tituloTabla: "{{caption}}",
+        ordenColumna: {{orderColumn}},
+        ordenTipo: "{{orderType}}",
+        ocultarColumnas: [{{#hiddenColumns}}"{{.}}"{{^-last}}, {{/-last}}{{/hiddenColumns}}],
+        cantidadItems: {{itemsPerPage}},
+        filterClassList: [{{#filterClasses}}"{{.}}"{{^-last}}, {{/-last}}{{/filterClasses}}],
+        allowedTags: [{{#allowedTags}}"{{.}}"{{^-last}}, {{/-last}}{{/allowedTags}}],
+        orderFilter: {{orderFilter}},
+        {{#enableWizard}}
+        wizard: true,
+        {{/enableWizard}}
+        {{#enableUrlParams}}
+        urlParams: true,
+        {{/enableUrlParams}}
+        {{#enablePushState}}
+        pushState: true,
+        {{/enablePushState}}
+        {{#enableCopyResults}}
+        copyResults: true,
+        {{/enableCopyResults}}
+    };
+    
+    ponchoTableDependant(options);
+})();
+</script>
