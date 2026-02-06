@@ -36,10 +36,6 @@ jobs:
       - name: Build and package
         run: mvn -B clean package -DskipTests -DnvdApiKey=${{ secrets.NVD_API_KEY }}
 
-      - name: Rename JAR for release
-        run: |
-          mv target/mcp-server-poncho-${{ steps.get_version.outputs.VERSION }}.jar target/mcp-server-poncho-${{ steps.get_version.outputs.VERSION }}.jar
-
       - name: Generate checksums
         run: |
           cd target
