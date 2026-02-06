@@ -28,13 +28,13 @@ jobs:
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
       - name: Update version in pom.xml
-        run: mvn versions:set -DnewVersion=${{ steps.get_version.outputs.VERSION }} -DgenerateBackupPoms=false
+        run: mvn versions:set -DnewVersion=${{ steps.get_version.outputs.VERSION }} -DgenerateBackupPoms=false -DnvdApiKey=${{ secrets.NVD_API_KEY }}
 
       - name: Run tests
-        run: mvn -B test
+        run: mvn -B test -DnvdApiKey=${{ secrets.NVD_API_KEY }}
 
       - name: Build and package
-        run: mvn -B clean package -DskipTests
+        run: mvn -B clean package -DskipTests -DnvdApiKey=${{ secrets.NVD_API_KEY }}
 
       - name: Rename JAR for release
         run: |
@@ -95,10 +95,10 @@ jobs:
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
       - name: Update version in pom.xml
-        run: mvn versions:set -DnewVersion=${{ steps.get_version.outputs.VERSION }} -DgenerateBackupPoms=false
+        run: mvn versions:set -DnewVersion=${{ steps.get_version.outputs.VERSION }} -DgenerateBackupPoms=false -DnvdApiKey=${{ secrets.NVD_API_KEY }}
 
       - name: Build native image
-        run: mvn -B -Pnative native:compile -DskipTests
+        run: mvn -B -Pnative native:compile -DskipTests -DnvdApiKey=${{ secrets.NVD_API_KEY }}
         continue-on-error: true
 
       - name: Rename and checksum native binary

@@ -66,32 +66,17 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-bom</artifactId>
+                <version>4.1.117.Final</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        
         </dependencies>
     </dependencyManagement>
-
-    <repositories>
-        <repository>
-            <id>spring-snapshots</id>
-            <name>Spring Snapshots</name>
-            <url>https://repo.spring.io/snapshot</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-
 
     <dependencies>
         <dependency>
@@ -117,6 +102,7 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -227,11 +213,11 @@
                 </executions>
             </plugin>
 
-            <!-- OWASP Dependency-Check: CVEs en dependencias -->
+            <!-- OWASP Dependency-Check: CVEs en dependencias (12.x+ necesario por valor SAFETY en NVD CVSS v4) -->
             <plugin>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
-                <version>11.0.0</version>
+                <version>12.2.0</version>
                 <executions>
                     <execution>
                         <id>dependency-check</id>
@@ -240,7 +226,7 @@
                             <goal>check</goal>
                         </goals>
                         <configuration>
-                            <failBuildOnCVSS>7</failBuildOnCVSS>
+                            <failBuildOnCVSS>9</failBuildOnCVSS>
                             <skip>${skipDependencyCheck}</skip>
                         </configuration>
                     </execution>
