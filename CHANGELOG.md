@@ -10,7 +10,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 ### Added
 - (Próximas mejoras: ver issues)
 
-## [1.0.0] - 2024-12-01
+## [1.0.0] - 2026-02-06
 
 ### Added
 
