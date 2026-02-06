@@ -1,0 +1,16 @@
+<configuration>
+
+    <!-- Appender que escribe solo en STDERR (no toca STDOUT) -->
+    <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.err</target>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Root logger: todo el logging va a STDERR -->
+    <root level="INFO">
+        <appender-ref ref="STDERR" />
+    </root>
+
+</configuration>

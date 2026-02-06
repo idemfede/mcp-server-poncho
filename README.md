@@ -33,39 +33,42 @@ Este servidor MCP permite a los asistentes de IA (Claude, Cursor, etc.) acceder 
 
 ## Requisitos
 
-- Java 21+
-- Maven 3.8+
+- Java 21+ instalado (OpenJDK u otra distribución compatible)
 
-## Instalación
+## Uso rápido (3 pasos)
 
-### 1. Clonar el repositorio
+**Paso 1: Descargar el JAR**
 
-```bash
-git clone https://github.com/idemfede/mcp-server-poncho.git
-cd mcp-server-poncho
-```
+1. Abrí la página de releases de GitHub del proyecto: `https://github.com/idemfede/mcp-server-poncho/releases/latest`.
+2. Descargá el archivo `mcp-server-poncho-*.jar` (el JAR más reciente).
+3. Guardalo en una carpeta fácil de recordar, por ejemplo: `/home/tu-usuario/apps/poncho/`.
 
-### 2. Compilar
+**Paso 2: Configurar el MCP o ejecutarlo a mano**
 
-```bash
-mvn clean package
-```
+- **Opción A – Ejecutarlo a mano**
 
-(Si solo querés generar el JAR sin ejecutar tests: `mvn clean package -DskipTests`)
+  En una terminal, ejecutá:
 
-### 3. Ejecutar
+  ```bash
+  java -jar /ruta/al/archivo/mcp-server-poncho-1.0.0.jar
+  ```
 
-```bash
-java -jar target/mcp-server-poncho-1.0.0.jar
-```
+  (Reemplazá `/ruta/al/archivo/` por la ruta donde guardaste el JAR).
+
+- **Opción B – Configurarlo en tu IDE**
+
+  - En **Cursor**, agregá el servidor en tu configuración MCP (ver sección **"Configuración en Cursor"** más abajo).
+  - En **Claude Desktop**, agregalo en `claude_desktop_config.json` (ver sección **"Configuración en Claude Desktop"**).
 
 El servidor se iniciará en `http://localhost:8081` por defecto.
 
-### Primeros pasos (2 minutos)
+**Paso 3: Probar en el chat**
 
-1. Cloná, compilá y ejecutá: `mvn clean package && java -jar target/mcp-server-poncho-1.0.0.jar`
-2. En Cursor, agregá el servidor a tu MCP (ver abajo) y reiniciá.
-3. Probá en el chat: *"Creame una página de login usando Poncho"* o *"Mostrame los colores institucionales de Poncho"*.
+Una vez que el servidor esté corriendo y configurado:
+
+- Probá en el chat algo como:
+  - *"Creame una página de login usando Poncho"*
+  - *"Mostrame los colores institucionales de Poncho"*
 
 ## Configuración en Cursor
 
@@ -75,11 +78,14 @@ Agrega el siguiente bloque a tu configuración de MCP en Cursor (`~/.cursor/mcp.
 {
   "mcpServers": {
     "argendata-poncho": {
-      "url": "http://localhost:8081/sse"
+      "command": "java",
+      "args": ["-jar", "/ruta/a/mcp-server-poncho-1.0.0.jar"]
     }
   }
 }
 ```
+
+El servidor también expone un endpoint HTTP SSE en `http://localhost:8081/sse`, pero la integración recomendada con Cursor es mediante stdio usando `command` y `args`.
 
 ## Configuración en Claude Desktop
 
