@@ -9,18 +9,17 @@
   "mcpServers": {
     "argendata-poncho": {
       "_description": "Servidor MCP para la librería Poncho del Gobierno Argentino",
-      
-      "_option1_comment": "Opción 1: Conectar a servidor ya ejecutándose (recomendado para desarrollo)",
-      "url": "http://localhost:8081/sse",
-      
-      "_option2_comment": "Opción 2: Ejecutar JAR directamente (descomentar y comentar url arriba)",
-      "_command": "java",
-      "_args": [
+      "_option1_comment": "Opción recomendada: ejecutar el JAR por stdio",
+      "command": "java",
+      "args": [
         "-jar",
         "/ruta/a/tu/mcp-server-poncho-1.0.0.jar"
       ],
-      
-      "_option3_comment": "Opción 3: Ejecutar con Maven (para desarrollo)",
+
+      "_option2_comment": "Opción alternativa: conectar a servidor HTTP existente (SSE)",
+      "_url": "http://localhost:8081/sse",
+
+      "_option3_comment": "Opción 3: Ejecutar con Maven (para desarrollo por stdio)",
       "_command_dev": "mvn",
       "_args_dev": [
         "-f",
